@@ -23,7 +23,7 @@ dependencies:
   #   alias: frontend
   - name: app-deployment
     version: 0.2.1
-    repository: "file://../../../helm-charts/app-deployment"
+    repository: "file://../../../../helm-charts/app-deployment"
     alias: backend
   # - name: app-job
   #   version: 0.2.0

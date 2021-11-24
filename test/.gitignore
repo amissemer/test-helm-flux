@@ -4,6 +4,6 @@
 
 ### Helm ###
 # Chart dependencies
-**/charts/*.tgz
+**/dist/
 
 # End of https://www.toptal.com/developers/gitignore/api/helm

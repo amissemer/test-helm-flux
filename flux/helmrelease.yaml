@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: test
+  namespace: dev-lions
+
+spec:
+  chart:
+    spec:
+      chart: ./test/
+      sourceRef:
+        kind: GitRepository
+        name: test-repo
+        namespace: dev-lions
+  install:
+    remediation:
+      retries: 1
+  interval: 2m
+  rollback:
+    disableWait: false
+    disableHooks: false
+    recreate: false
+    force: false
+    cleanupOnFail: false
+  test:
+    enable: true
+    timeout: 30s
+  timeout: 10m
+  upgrade:
+    # force: set to true when a replacement of the resources is preferred (making the charts the source of truth) rather than a 3-way merge patch (the latter allows for out-of-band edit of the resources)
+    # we cannot use it at this time because of https://github.com/helm/helm/issues/7173
+    # force: true
+    remediation:
+      retries: 1
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: test-repo
+  namespace: dev-lions
+spec:
+  interval: 1m
+  url: https://github.com/amissemer/test-helm-flux
+  ref:
+    branch: main
