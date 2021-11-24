@@ -78,16 +78,10 @@ global:
 
 
 migration:
-  container:
-    nabuSecretsName: nabu-secrets
-    command: [ "scripts/migrate-all.sh" ]
-    env:
-      DB_CONFIG_KEY: securemessaging
-      NABU_CONFIG: /opt/app/tenant-config.ini
   image:
-    repository: 406883902139.dkr.ecr.ca-central-1.amazonaws.com/accloud-service-secure-messaging-db
+    repository: amissemer/test
+    tag: 3m-success
   job:
-    parallelCompletions: 2
     annotations:
       "helm.sh/hook": pre-install,pre-upgrade
       "helm.sh/hook-delete-policy": before-hook-creation

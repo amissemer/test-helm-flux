@@ -25,13 +25,18 @@ spec:
   test:
     enable: true
     timeout: 30s
-  timeout: 10m
+  timeout: 2m
   upgrade:
     # force: set to true when a replacement of the resources is preferred (making the charts the source of truth) rather than a 3-way merge patch (the latter allows for out-of-band edit of the resources)
     # we cannot use it at this time because of https://github.com/helm/helm/issues/7173
     # force: true
     remediation:
       retries: 1
+
+  values:
+    global:
+      image:
+        tag: webserver
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository

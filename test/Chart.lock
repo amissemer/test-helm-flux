@@ -2,5 +2,8 @@ dependencies:
 - name: app-deployment
   repository: file://../../../../helm-charts/app-deployment
   version: 0.2.1
-digest: sha256:15074e9bf051bb5b31daff81b2a3f463931ee084a1c3b08c6babcda46dd7a9d0
-generated: "2021-11-24T10:38:44.874303-05:00"
+- name: app-job
+  repository: file://../../../../helm-charts/app-job
+  version: 0.2.0
+digest: sha256:e410abacd7d7d030d2e180a654ebc4eb2f1586e6f8a45ec90665a6a3999eeab8
+generated: "2021-11-24T11:28:13.226035-05:00"

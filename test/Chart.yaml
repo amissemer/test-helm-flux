@@ -25,7 +25,8 @@ dependencies:
     version: 0.2.1
     repository: "file://../../../../helm-charts/app-deployment"
     alias: backend
-  # - name: app-job
-  #   version: 0.2.0
-  #   repository: "@alayacare"
-  #   alias: migration
+  - name: app-job
+    version: 0.2.0
+    repository: "file://../../../../helm-charts/app-job"
+    alias: migration
+
