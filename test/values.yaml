@@ -1,0 +1,97 @@
+# Default values for accloud-service-secure-messaging.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+backend:
+  deployment:
+    progressDeadlineSeconds: 60
+    replicas: 2
+#  fullnameOverride: apisecuremessaging
+  container:
+    # nabuSecretsName: nabu-secrets
+    ports:
+      http:
+        containerPort: 5000
+
+    readinessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 5
+      tcpSocket:
+        port: 5000
+
+    livenessProbe:
+      initialDelaySeconds: 40
+      periodSeconds: 20
+      tcpSocket:
+        port: 5000
+
+    resources: 
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+
+  ingress: 
+    enabled: false
+
+  service:
+    enabled: true
+    ports:
+      http:
+        port: 5000
+
+    # testEndpointPath: when service is enabled, should point to a deploymnent's endpoint that will return a 200 OK
+    # even if the request isn't authenticated. This will be used as an "helm test" for the releases.
+    testEndpointPath: ""
+
+frontend:
+  ingress:
+    pathPrefix: secure-messaging
+
+  # The hostname of the CloudFront distribution or external host where assets are hosted
+  remote: 
+    hostname: accloud-frontend-assets.alayacare.com
+
+
+global:
+  # Alayacare environment
+  environment: rc
+
+  image:
+    tag: latest
+    repository: amissemer/test
+
+  # Alayacare region
+  region: can1
+
+  # Pass here the same rules as for the alaya-ingress helm release deployed in the cluster
+  rules: []
+  # - host: lions.dev.alayacare.ca
+  #   namespace: dev-lions
+  #   ingressClass: public-ingress-nginx
+
+  # Use this for custom stacks redirects (see as for the alaya-ingress helm release deployed in the cluster)
+  extraRules: []
+
+
+migration:
+  container:
+    nabuSecretsName: nabu-secrets
+    command: [ "scripts/migrate-all.sh" ]
+    env:
+      DB_CONFIG_KEY: securemessaging
+      NABU_CONFIG: /opt/app/tenant-config.ini
+  image:
+    repository: 406883902139.dkr.ecr.ca-central-1.amazonaws.com/accloud-service-secure-messaging-db
+  job:
+    parallelCompletions: 2
+    annotations:
+      "helm.sh/hook": pre-install,pre-upgrade
+      "helm.sh/hook-delete-policy": before-hook-creation
+  serviceAccount: 
+    annotations:
+      "helm.sh/hook": pre-install,pre-upgrade
+      "helm.sh/hook-delete-policy": before-hook-creation

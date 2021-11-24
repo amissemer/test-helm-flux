@@ -1,0 +1,6 @@
+dependencies:
+- name: app-deployment
+  repository: file://../../../helm-charts/app-deployment
+  version: 0.2.1
+digest: sha256:acc71231358459d9b28ed17e24e1cf088d2ce0a394f3a20b8fdaa03c496844f0
+generated: "2021-11-24T10:10:16.984189-05:00"
